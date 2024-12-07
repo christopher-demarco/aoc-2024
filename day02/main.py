@@ -10,26 +10,30 @@ def inc(a, b):
 def dec(a, b):
     return 0 < a - b < 4
 
+def test_levels(b, levels):
+    cmp = None
+    while levels:
+        a = b
+        b = int(levels.pop(0))
+
+        if not cmp:
+            if a < b: cmp = inc
+            else: cmp = dec
+
+        if not cmp(a, b):
+            return False
+        else:
+            continue
+    return True
+
 safe_levels = 0
 
 with open('input.dat', 'r') as ifh:
     for line in ifh.readlines():
         levels = line.rstrip().split()
 
-        cmp = None
         b = int(levels.pop(0))
-
-        while levels:
-            a = b
-            b = int(levels.pop(0))
-
-            if not cmp:
-                if a < b: cmp = inc
-                else: cmp = dec
-
-            if not cmp(a, b):
-                break
-        else:
+        if test_levels(b, levels):
             print(f'{line.rstrip()} is safe.')
             safe_levels += 1
 print(safe_levels)
