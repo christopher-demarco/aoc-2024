@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import re
 import sys
 
 funcs = {
@@ -12,8 +13,14 @@ def run(inst):
     b = b.strip(')')
     return funcs[func](int(a), int(b))
 
+total = 0
+
+rex = re.compile('mul\\(\\d{1,3},\\d{1,3}\\)')
+
 with open(sys.argv[1], 'r') as ifh:
-    print(run('mul(21,2)'))
-    # for line in ifh.readlines():
-        # while line:
-        #     inst = line.pop(0)
+    for line in ifh.readlines():
+        for inst in rex.findall(line):
+            ret = run(inst)
+            total += ret
+
+print(total)
