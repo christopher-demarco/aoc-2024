@@ -48,7 +48,8 @@ class Map:
         while True:
             try:
                 self.move()
-                print(self)
+                # print(self)
+                print(len(self.guard_unique_squares))
             except Exit:
                 print(self)
                 print(f'Guard exited with heading {self.guard_heading} from {self.guard_pos}!')
