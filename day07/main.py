@@ -11,7 +11,7 @@ def parse_line(line):
     return result, inputs
 
 def generate_operator_combinations(n):
-    combinations = list(itertools.product(['+', '*'], repeat=n-1))
+    combinations = list(itertools.product(['+', '*', '||'], repeat=n-1))
     return combinations
 
 def construct_expression(inputs, operators):
@@ -21,15 +21,22 @@ def construct_expression(inputs, operators):
         + inputs[-1:]
     return expression
 
-def evaluate_expression(expression, rest):
-    if rest != []:
+def do_eval(expression):
+    if expression[1] == '||':
+        result = expression[0] + expression[2]
+    else:
         str_expression = ' '.join(expression)
         result = eval(str_expression)
+    return int(result)
+
+def evaluate_expression(expression, rest):
+    if rest != []:
+        result = do_eval(expression)
         expression =  [str(result)] + rest[:2]
         rest = rest[2:]
         return evaluate_expression(expression, rest)
     else:
-        result = eval(' '.join(expression))
+        result = do_eval(expression)
         return result
 
 def evaluate_line(line):
@@ -48,6 +55,8 @@ def evaluate_line(line):
 if __name__ == '__main__':
 
     total = 0
+
+    # total += evaluate_expression(['12', '||', '34'], [])
 
     with open(sys.argv[1], 'r') as ifh:
         for line in ifh.readlines():
