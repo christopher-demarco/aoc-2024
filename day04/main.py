@@ -37,9 +37,10 @@ directions = [n,ne,e,se,s,sw,w,nw]
 
 def get_vector(matrix, vector):
     try:
-        return [matrix[y][x] for y, x in vector]
+        vector_chars = [matrix[y][x] for y, x in vector if y>=0 and x>=0]
     except IndexError:
-        return ''
+        return '' # this is eventually going to bite me
+    return vector_chars
 
 def stringify_char_array(array):
     return ''.join(array)
@@ -52,11 +53,11 @@ def find_in_matrix(target, matrix):
     for y in range(rows):
         for x in range(cols):
             for dir in directions:
-                dirword = stringify_char_array(
-                    get_vector(
-                        matrix, dir(y, x, len_target)))
-                print(y, x, dir, dirword, dirword==target)
-                if dirword == target:
+                bare_vector = dir(y, x, len_target)
+                word_vector = get_vector(matrix, bare_vector)
+                word = stringify_char_array(word_vector)
+                print(y, x, dir, bare_vector, word, word == target)
+                if word == target:
                     matches += 1
     return matches
 
