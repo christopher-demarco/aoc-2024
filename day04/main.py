@@ -16,12 +16,24 @@ def stringify_matrix(matrix):
         string += ''.join(line) + '\n'
     return string
 
+def n(y,x,i):
+    return list(itertools.zip_longest((range(y,y-i,-1)), (x,), fillvalue=x))
+def ne(y,x,i):
+    return list(itertools.zip_longest((range(y,y-i,-1)), range(x,x+i)))
 def e(y,x,i):
     return list(itertools.zip_longest((y,), range(x,x+i), fillvalue=y))
+def se(y,x,i):
+    return list(itertools.zip_longest((range(y,y+i)), range(x,x+i)))
 def s(y,x,i):
     return list(itertools.zip_longest((range(y,y+i)), (x,), fillvalue=x))
+def sw(y,x,i):
+    return list(itertools.zip_longest((range(y,y+i)), range(x,x-i,-1)))
+def w(y,x,i):
+    return list(itertools.zip_longest((y,), range(x,x-i,-1), fillvalue=y))
+def nw(y,x,i):
+    return list(itertools.zip_longest((range(y,y-i,-1)), range(x,x-i,-1)))
 
-directions = [e,s]
+directions = [n,ne,e,se,s,sw,w,nw]
 
 def get_vector(matrix, vector):
     try:
@@ -43,7 +55,7 @@ def find_in_matrix(target, matrix):
                 dirword = stringify_char_array(
                     get_vector(
                         matrix, dir(y, x, len_target)))
-                print(y, x, dir, dirword)
+                print(y, x, dir, dirword, dirword==target)
                 if dirword == target:
                     matches += 1
     return matches
