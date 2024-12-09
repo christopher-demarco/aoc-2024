@@ -16,7 +16,7 @@ with open('example.dat', 'r') as ifh:
 m = main.create_matrix(example_raw)
 
 def test_get_vector():
-    assert main.get_vector(m, main.s(9,0,2)) == None
+    assert main.get_vector(m, main.s(9,0,2)) == ''
     assert main.get_vector(m, main.s(3,9,4)) == ['X','M','A','S']
 
 def test_stringify_char_array():

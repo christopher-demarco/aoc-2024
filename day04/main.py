@@ -16,44 +16,39 @@ def stringify_matrix(matrix):
         string += ''.join(line) + '\n'
     return string
 
-# def e(x, y, i):
-#     v = list(
-#         itertools.zip_longest(
-#             range(x, y+n),
-#             (x,),
-#             row
-#             ))
-#     return v
-
-# directions = [e,]
-
-# def find_in_matrix(target, matrix):
-#     len_target = len(target)
-#     matches = 0
-#     rows = len(matrix)
-#     cols = len(matrix[0])
-#     for row in rows:
-#         for col in cols:
-#             for dir in directions:
-#                 if dir(row, col, len_target) == target:
-#                     matches += 1
-
 def e(y,x,i):
     return list(itertools.zip_longest((y,), range(x,x+i), fillvalue=y))
 def s(y,x,i):
     return list(itertools.zip_longest((range(y,y+i)), (x,), fillvalue=x))
 
+directions = [e,s]
+
 def get_vector(matrix, vector):
     try:
         return [matrix[y][x] for y, x in vector]
     except IndexError:
-        return None
+        return ''
 
 def stringify_char_array(array):
     return ''.join(array)
 
+def find_in_matrix(target, matrix):
+    len_target = len(target)
+    matches = 0
+    rows = len(matrix)
+    cols = len(matrix[0])
+    for y in range(rows):
+        for x in range(cols):
+            for dir in directions:
+                dirword = stringify_char_array(
+                    get_vector(
+                        matrix, dir(y, x, len_target)))
+                print(y, x, dir, dirword)
+                if dirword == target:
+                    matches += 1
+    return matches
+
 if __name__ == '__main__':
     with open(sys.argv[1], 'r') as ifh:
         m = create_matrix(ifh.read())
-        print(s(9,1,2))
-        print(get_vector(m, s(9,2,2)))
+        print(f'Found {find_in_matrix('XMAS', m)} matches.')
