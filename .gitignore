@@ -1,3 +1,4 @@
 *.dat
 launch.json
 __pycache__
+.gocache
